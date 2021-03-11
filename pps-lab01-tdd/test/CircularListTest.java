@@ -32,6 +32,17 @@ public class CircularListTest {
         assertEquals(5, list.size());
     }
 
+    @Test public void testEmpty(){
+       assertEquals(true, list.isEmpty());
+    }
+
+    @Test public void testNotEmpty(){
+        list.add(5);
+        assertEquals(false, list.isEmpty());
+    }
+
+
+
 
 
 }
