@@ -71,6 +71,37 @@ public class CircularListTest {
         assertEquals(Optional.empty(), list.next());
     }
 
+    @Test public void testNextPreviousElement(){
+        for (int i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        list.next();
+        assertEquals(Optional.of(0), list.previous());
+    }
 
+    @Test public void testPreviousCircularElement(){
+        for (int i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        assertEquals(Optional.of(2), list.previous());
+    }
+
+    @Test public void testPreviousNextElement(){
+        for (int i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        list.previous();
+        assertEquals(Optional.of(2), list.next());
+    }
+
+    @Test public void testResetElement(){
+        for (int i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        list.next();
+        list.next();
+        list.reset();
+        assertEquals(Optional.of(0), list.next());
+    }
 
 }

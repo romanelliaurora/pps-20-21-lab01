@@ -41,12 +41,20 @@ public class CircularListImpl implements CircularList {
 
     @Override
     public Optional<Integer> previous() {
-        return Optional.empty();
+        Optional<Integer> currentElement;
+        if(pointer==0){
+            pointer = list.size()-1;
+        }
+        else {
+            pointer--;
+        }
+        currentElement = Optional.of(list.get(pointer));
+        return currentElement;
     }
 
     @Override
     public void reset() {
-
+        pointer = list.get(0);
     }
 
     @Override
