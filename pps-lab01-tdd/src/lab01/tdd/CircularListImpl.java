@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class CircularListImpl implements CircularList {
-    final List list = new ArrayList();
+    final List<Integer> list = new ArrayList<Integer>();
+    int pointer = 0;
 
     @Override
     public void add(int element) {
@@ -19,19 +20,23 @@ public class CircularListImpl implements CircularList {
 
     @Override
     public boolean isEmpty() {
-        boolean empty;
-        if(list.size() == 0){
-            empty = true;
-        }
-        else {
-            empty = false;
-        }
-        return empty;
+        return list.size() == 0;
     }
 
     @Override
     public Optional<Integer> next() {
-        return Optional.empty();
+        Optional<Integer> currentElement;
+        if (list.isEmpty()){
+            currentElement = Optional.empty();
+        }
+        else{
+            currentElement = Optional.of(list.get(pointer));
+        }
+        pointer++;
+        if(list.size()==pointer){
+            pointer = 0;
+        }
+        return currentElement;
     }
 
     @Override

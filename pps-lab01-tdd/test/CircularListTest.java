@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The test suite for testing the CircularList implementation
@@ -41,7 +42,34 @@ public class CircularListTest {
         assertEquals(false, list.isEmpty());
     }
 
+    @Test public void testNextElement(){
+        for (int i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        assertEquals(Optional.of(0), list.next());
+    }
 
+    @Test public void testDoubleNextElement(){
+        for (int i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        list.next();
+        assertEquals(Optional.of(1), list.next());
+    }
+
+    @Test public void testCircularNextElement(){
+        for (int i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        list.next();
+        list.next();
+        list.next();
+        assertEquals(Optional.of(0), list.next());
+    }
+
+    @Test public void testEmptyNextElement(){
+        assertEquals(Optional.empty(), list.next());
+    }
 
 
 
