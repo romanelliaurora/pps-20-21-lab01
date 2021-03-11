@@ -10,10 +10,12 @@ public class SimpleBankAccount implements BankAccount {
     private double balance;
     private final AccountHolder holder;
 
-    public SimpleBankAccount(final AccountHolder holder, final double balance) {
+
+    public SimpleBankAccount (final AccountHolder holder, final double balance) {
         this.holder = holder;
         this.balance = balance;
     }
+
     @Override
     public AccountHolder getHolder(){
         return this.holder;
@@ -24,25 +26,27 @@ public class SimpleBankAccount implements BankAccount {
         return this.balance;
     }
 
-    @Override
+
+    boolean isWithdrawAllowed(final double amount){
+        return this.balance >= amount;
+    }
+
+    boolean checkUser(final int id) {
+        return this.holder.getId() == id;
+    }
+
     public void deposit(final int usrID, final double amount) {
         if (checkUser(usrID)) {
             this.balance += amount;
         }
     }
-
-    @Override
     public void withdraw(final int usrID, final double amount) {
         if (checkUser(usrID) && isWithdrawAllowed(amount)) {
             this.balance -= amount;
         }
     }
 
-    private boolean isWithdrawAllowed(final double amount){
-        return this.balance >= amount;
-    }
-
-    private boolean checkUser(final int id) {
-        return this.holder.getId() == id;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }
