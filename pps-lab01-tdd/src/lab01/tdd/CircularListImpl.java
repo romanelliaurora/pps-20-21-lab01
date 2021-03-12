@@ -59,6 +59,10 @@ public class CircularListImpl implements CircularList {
 
     @Override
     public Optional<Integer> next(SelectStrategy strategy) {
-        return Optional.empty();
+        int finishPointer = (pointer==0 ? list.size() :pointer)-1;
+        while (!strategy.apply(list.get(pointer)) && finishPointer!=pointer){
+            next();
+        }
+        return finishPointer == pointer ? Optional.empty() :Optional.of(list.get(pointer));
     }
 }

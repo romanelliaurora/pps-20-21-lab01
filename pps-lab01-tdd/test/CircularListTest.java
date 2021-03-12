@@ -1,6 +1,8 @@
 import lab01.tdd.CircularList;
 import lab01.tdd.CircularListImpl;
 import static org.junit.jupiter.api.Assertions.*;
+
+import lab01.tdd.evenStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,8 @@ import java.util.Optional;
 public class CircularListTest {
     //final List circularList = new ArrayList();
     private CircularList list;
+    int i;
+
     @BeforeEach
     void beforeEach(){
         list = new CircularListImpl();
@@ -26,7 +30,7 @@ public class CircularListTest {
     }
 
     @Test public void testMultipleAddElement(){
-        for (int i = 0; i <5 ; i++){
+        for (i = 0; i <5 ; i++){
             list.add(i);
         }
 
@@ -34,23 +38,23 @@ public class CircularListTest {
     }
 
     @Test public void testEmpty(){
-       assertEquals(true, list.isEmpty());
+        assertTrue(list.isEmpty());
     }
 
     @Test public void testNotEmpty(){
         list.add(5);
-        assertEquals(false, list.isEmpty());
+        assertFalse(list.isEmpty());
     }
 
     @Test public void testNextElement(){
-        for (int i = 0; i <3 ; i++){
+        for (i = 0; i <3 ; i++){
             list.add(i);
         }
         assertEquals(Optional.of(0), list.next());
     }
 
     @Test public void testDoubleNextElement(){
-        for (int i = 0; i <3 ; i++){
+        for (i = 0; i <3 ; i++){
             list.add(i);
         }
         list.next();
@@ -58,7 +62,7 @@ public class CircularListTest {
     }
 
     @Test public void testCircularNextElement(){
-        for (int i = 0; i <3 ; i++){
+        for (i = 0; i <3 ; i++){
             list.add(i);
         }
         list.next();
@@ -72,7 +76,7 @@ public class CircularListTest {
     }
 
     @Test public void testNextPreviousElement(){
-        for (int i = 0; i <3 ; i++){
+        for (i = 0; i <3 ; i++){
             list.add(i);
         }
         list.next();
@@ -80,14 +84,14 @@ public class CircularListTest {
     }
 
     @Test public void testPreviousCircularElement(){
-        for (int i = 0; i <3 ; i++){
+        for (i = 0; i <3 ; i++){
             list.add(i);
         }
         assertEquals(Optional.of(2), list.previous());
     }
 
     @Test public void testPreviousNextElement(){
-        for (int i = 0; i <3 ; i++){
+        for (i = 0; i <3 ; i++){
             list.add(i);
         }
         list.previous();
@@ -95,13 +99,27 @@ public class CircularListTest {
     }
 
     @Test public void testResetElement(){
-        for (int i = 0; i <3 ; i++){
+        for (i = 0; i <3 ; i++){
             list.add(i);
         }
         list.next();
         list.next();
         list.reset();
         assertEquals(Optional.of(0), list.next());
+    }
+    @Test public void testEvenStrategy(){
+        for (i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        list.next();
+        assertEquals(Optional.of(2),list.next(new evenStrategy()));
+    }
+
+    @Test public void testEvenStrategyWithNoEven(){
+        for (i = 0; i <3 ; i++){
+            list.add(3);
+        }
+        assertEquals(Optional.empty(),list.next(new evenStrategy()));
     }
 
 }
