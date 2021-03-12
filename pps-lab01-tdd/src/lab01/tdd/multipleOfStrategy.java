@@ -9,9 +9,6 @@ public class multipleOfStrategy implements SelectStrategy {
 
     @Override
     public boolean apply(int element) {
-        if (multiplier == 0){
-            return element == 0;
-        }
-        return element % multiplier == 0;
+        return multiplier == 0 ? element == 0 : element % multiplier == 0;
     }
 }

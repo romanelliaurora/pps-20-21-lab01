@@ -29,10 +29,7 @@ public class CircularListTest {
     }
 
     @Test public void testMultipleAddElement(){
-        for (i = 0; i <5 ; i++){
-            list.add(i);
-        }
-
+        list = createCircularList(5);
         assertEquals(5, list.size());
     }
 
@@ -46,24 +43,18 @@ public class CircularListTest {
     }
 
     @Test public void testNextElement(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         assertEquals(Optional.of(0), list.next());
     }
 
     @Test public void testDoubleNextElement(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         list.next();
         assertEquals(Optional.of(1), list.next());
     }
 
     @Test public void testCircularNextElement(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         list.next();
         list.next();
         list.next();
@@ -75,42 +66,32 @@ public class CircularListTest {
     }
 
     @Test public void testNextPreviousElement(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         list.next();
         list.next();
         assertEquals(Optional.of(0), list.previous());
     }
 
     @Test public void testPreviousCircularElement(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         assertEquals(Optional.of(2), list.previous());
     }
 
     @Test public void testPreviousNextElement(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         list.previous();
         assertEquals(Optional.of(0), list.next());
     }
 
     @Test public void testResetElement(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         list.next();
         list.next();
         list.reset();
         assertEquals(Optional.of(0), list.next());
     }
     @Test public void testEvenStrategy(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         list.next();
         assertEquals(Optional.of(2),list.next(new evenStrategy()));
     }
@@ -123,41 +104,37 @@ public class CircularListTest {
     }
 
     @Test public void testMultipleOfStrategy(){
-        for (i = 0; i <4 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(4);
         list.next();
         assertEquals(Optional.of(3),list.next(new multipleOfStrategy(3)));
     }
 
     @Test public void testMultipleOfStrategyWithNoMultiple(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         list.next();
         assertEquals(Optional.of(0),list.next(new multipleOfStrategy(5)));
     }
 
     @Test public void testMultipleOfStrategyWithZero(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         list.next();
         assertEquals(Optional.of(0),list.next(new multipleOfStrategy(0)));
     }
 
     @Test public void testEqualsStrategy(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         assertEquals(Optional.of(2),list.next(new equalsStrategy(2)));
     }
 
     @Test public void testEqualsStrategyWithNoEqualElement(){
-        for (i = 0; i <3 ; i++){
-            list.add(i);
-        }
+        list = createCircularList(3);
         assertEquals(Optional.empty(),list.next(new equalsStrategy(3)));
     }
 
+    private CircularList createCircularList (int numElement){
+        for (i = 0; i <numElement ; i++){
+            list.add(i);
+        }
+        return list;
+    }
 }
