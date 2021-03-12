@@ -131,4 +131,20 @@ public class CircularListTest {
         assertEquals(Optional.of(3),list.next(new multipleOfStrategy(3)));
     }
 
+    @Test public void testMultipleOfStrategyWithNoMultiple(){
+        for (i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        list.next();
+        assertEquals(Optional.empty(),list.next(new multipleOfStrategy(5)));
+    }
+
+    @Test public void testMultipleOfStrategyWithZero(){
+        for (i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        list.next();
+        assertEquals(Optional.empty(),list.next(new multipleOfStrategy(0)));
+    }
+
 }
