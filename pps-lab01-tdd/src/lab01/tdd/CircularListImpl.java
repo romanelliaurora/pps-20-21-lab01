@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public class CircularListImpl implements CircularList {
     final List<Integer> list = new ArrayList<Integer>();
-    int pointer = 0;
+    int pointer = -1;
 
     @Override
     public void add(int element) {
@@ -26,15 +26,15 @@ public class CircularListImpl implements CircularList {
     @Override
     public Optional<Integer> next() {
         Optional<Integer> currentElement;
+        pointer++;
+        if(pointer==list.size()){
+            pointer = 0;
+        }
         if (list.isEmpty()){
             currentElement = Optional.empty();
         }
         else{
             currentElement = Optional.of(list.get(pointer));
-        }
-        pointer++;
-        if(list.size()==pointer){
-            pointer = 0;
         }
         return currentElement;
     }
@@ -42,7 +42,7 @@ public class CircularListImpl implements CircularList {
     @Override
     public Optional<Integer> previous() {
         Optional<Integer> currentElement;
-        if(pointer==0){
+        if(pointer==0 || pointer==-1){
             pointer = list.size()-1;
         }
         else {
@@ -54,15 +54,30 @@ public class CircularListImpl implements CircularList {
 
     @Override
     public void reset() {
-        pointer = list.get(0);
+        pointer = -1;
     }
 
     @Override
     public Optional<Integer> next(SelectStrategy strategy) {
-        int finishPointer = (pointer==0 ? list.size() :pointer)-1;
-        while (!strategy.apply(list.get(pointer)) && finishPointer!=pointer){
+        int finishPointer = pointer==-1? list.size()-1:pointer;
+        do {
+            next();
+            if (strategy.apply(list.get(pointer))){
+                return Optional.of(list.get(pointer));
+            }
+        }
+            while(finishPointer!=pointer);
+        return Optional.empty();
+/*
+
+
+
+        while (!strategy.apply(list.get(pointer))){
+            if(finishPointer==pointer){
+                return Optional.empty();
+            }
             next();
         }
-        return finishPointer == pointer ? Optional.empty() :Optional.of(list.get(pointer));
+        return Optional.of(list.get(pointer));*/
     }
 }

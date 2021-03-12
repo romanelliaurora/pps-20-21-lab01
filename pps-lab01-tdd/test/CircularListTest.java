@@ -1,9 +1,7 @@
-import lab01.tdd.CircularList;
-import lab01.tdd.CircularListImpl;
+import lab01.tdd.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import lab01.tdd.evenStrategy;
-import lab01.tdd.multipleOfStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -81,6 +79,7 @@ public class CircularListTest {
             list.add(i);
         }
         list.next();
+        list.next();
         assertEquals(Optional.of(0), list.previous());
     }
 
@@ -96,7 +95,7 @@ public class CircularListTest {
             list.add(i);
         }
         list.previous();
-        assertEquals(Optional.of(2), list.next());
+        assertEquals(Optional.of(0), list.next());
     }
 
     @Test public void testResetElement(){
@@ -136,7 +135,7 @@ public class CircularListTest {
             list.add(i);
         }
         list.next();
-        assertEquals(Optional.empty(),list.next(new multipleOfStrategy(5)));
+        assertEquals(Optional.of(0),list.next(new multipleOfStrategy(5)));
     }
 
     @Test public void testMultipleOfStrategyWithZero(){
@@ -144,7 +143,21 @@ public class CircularListTest {
             list.add(i);
         }
         list.next();
-        assertEquals(Optional.empty(),list.next(new multipleOfStrategy(0)));
+        assertEquals(Optional.of(0),list.next(new multipleOfStrategy(0)));
+    }
+
+    @Test public void testEqualsStrategy(){
+        for (i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        assertEquals(Optional.of(2),list.next(new equalsStrategy(2)));
+    }
+
+    @Test public void testEqualsStrategyWithNoEqualElement(){
+        for (i = 0; i <3 ; i++){
+            list.add(i);
+        }
+        assertEquals(Optional.empty(),list.next(new equalsStrategy(3)));
     }
 
 }
