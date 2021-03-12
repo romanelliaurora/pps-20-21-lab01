@@ -2,21 +2,22 @@ import lab01.tdd.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
  * The test suite for testing the CircularList implementation
  */
 public class CircularListTest {
-    //final List circularList = new ArrayList();
     private CircularList list;
+    private static AbstractFactory factory;
     int i;
+
+    @BeforeAll
+    static void  beforeAll(){factory = new StrategyFactory();}
 
     @BeforeEach
     void beforeEach(){
@@ -29,7 +30,7 @@ public class CircularListTest {
     }
 
     @Test public void testMultipleAddElement(){
-        list = createCircularList(5);
+        createCircularList(5);
         assertEquals(5, list.size());
     }
 
@@ -43,18 +44,18 @@ public class CircularListTest {
     }
 
     @Test public void testNextElement(){
-        list = createCircularList(3);
+        createCircularList(3);
         assertEquals(Optional.of(0), list.next());
     }
 
     @Test public void testDoubleNextElement(){
-        list = createCircularList(3);
+        createCircularList(3);
         list.next();
         assertEquals(Optional.of(1), list.next());
     }
 
     @Test public void testCircularNextElement(){
-        list = createCircularList(3);
+        createCircularList(3);
         list.next();
         list.next();
         list.next();
@@ -66,75 +67,74 @@ public class CircularListTest {
     }
 
     @Test public void testNextPreviousElement(){
-        list = createCircularList(3);
+        createCircularList(3);
         list.next();
         list.next();
         assertEquals(Optional.of(0), list.previous());
     }
 
     @Test public void testPreviousCircularElement(){
-        list = createCircularList(3);
+        createCircularList(3);
         assertEquals(Optional.of(2), list.previous());
     }
 
     @Test public void testPreviousNextElement(){
-        list = createCircularList(3);
+        createCircularList(3);
         list.previous();
         assertEquals(Optional.of(0), list.next());
     }
 
     @Test public void testResetElement(){
-        list = createCircularList(3);
+        createCircularList(3);
         list.next();
         list.next();
         list.reset();
         assertEquals(Optional.of(0), list.next());
     }
     @Test public void testEvenStrategy(){
-        list = createCircularList(3);
+        createCircularList(3);
         list.next();
-        assertEquals(Optional.of(2),list.next(new evenStrategy()));
+        assertEquals(Optional.of(2),list.next(factory.getEvens()));
     }
 
     @Test public void testEvenStrategyWithNoEven(){
         for (i = 0; i <3 ; i++){
             list.add(3);
         }
-        assertEquals(Optional.empty(),list.next(new evenStrategy()));
+        assertEquals(Optional.empty(),list.next(factory.getEvens()));
     }
 
     @Test public void testMultipleOfStrategy(){
-        list = createCircularList(4);
+        createCircularList(4);
         list.next();
-        assertEquals(Optional.of(3),list.next(new multipleOfStrategy(3)));
+        assertEquals(Optional.of(3),list.next(factory.getMultiple(3)));
     }
 
     @Test public void testMultipleOfStrategyWithNoMultiple(){
-        list = createCircularList(3);
+        createCircularList(3);
         list.next();
-        assertEquals(Optional.of(0),list.next(new multipleOfStrategy(5)));
+        assertEquals(Optional.of(0),list.next(factory.getMultiple(5)));
     }
 
     @Test public void testMultipleOfStrategyWithZero(){
-        list = createCircularList(3);
+        createCircularList(3);
         list.next();
-        assertEquals(Optional.of(0),list.next(new multipleOfStrategy(0)));
+        assertEquals(Optional.of(0),list.next(factory.getMultiple(0)));
     }
 
     @Test public void testEqualsStrategy(){
-        list = createCircularList(3);
-        assertEquals(Optional.of(2),list.next(new equalsStrategy(2)));
+        createCircularList(3);
+        assertEquals(Optional.of(2),list.next(factory.getEquals(2)));
     }
 
     @Test public void testEqualsStrategyWithNoEqualElement(){
-        list = createCircularList(3);
-        assertEquals(Optional.empty(),list.next(new equalsStrategy(3)));
+        createCircularList(3);
+        assertEquals(Optional.empty(),list.next(factory.getEquals(3)));
     }
 
-    private CircularList createCircularList (int numElement){
+    private void createCircularList (int numElement){
         for (i = 0; i <numElement ; i++){
             list.add(i);
         }
-        return list;
     }
 }
